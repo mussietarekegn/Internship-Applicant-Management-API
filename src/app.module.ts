@@ -17,14 +17,10 @@ isGlobal:true
 }),
 
 PrismaModule,
-
 AuthModule,
-
 ApplicantsModule,
-
 DashboardModule
 
 ]
-
 })
 export class AppModule {}

@@ -6,22 +6,20 @@ import {
  Param,
  Patch,
  Delete,
+ Query
 } from '@nestjs/common';
 
-
+import { ApplicantQueryDto } from './dto/applicant-query.dto';
 import { ApplicantsService } from './applicants.service';
 import { CreateApplicantDto } from './dto/create-applicant.dto';
 import { UpdateApplicantDto } from './dto/update-applicant.dto';
 
-
 @Controller('api/applicants')
 export class ApplicantsController {
-
 
 constructor(
  private readonly applicantsService: ApplicantsService
 ){}
-
 
 
 @Post()
@@ -33,16 +31,14 @@ create(
 
 }
 
-
-
 @Get()
-findAll(){
+findAll(
+ @Query() query:ApplicantQueryDto
+){
 
- return this.applicantsService.findAll();
+ return this.applicantsService.findAll(query);
 
 }
-
-
 
 @Get(':id')
 findOne(
@@ -52,8 +48,6 @@ findOne(
  return this.applicantsService.findOne(id);
 
 }
-
-
 
 @Patch(':id')
 update(
@@ -65,8 +59,6 @@ update(
 
 }
 
-
-
 @Delete(':id')
 remove(
  @Param('id') id:string
@@ -75,6 +67,5 @@ remove(
  return this.applicantsService.remove(id);
 
 }
-
 
 }

@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApplicantsController = void 0;
 const common_1 = require("@nestjs/common");
+const applicant_query_dto_1 = require("./dto/applicant-query.dto");
 const applicants_service_1 = require("./applicants.service");
 const create_applicant_dto_1 = require("./dto/create-applicant.dto");
 const update_applicant_dto_1 = require("./dto/update-applicant.dto");
@@ -25,8 +26,8 @@ let ApplicantsController = class ApplicantsController {
     create(dto) {
         return this.applicantsService.create(dto);
     }
-    findAll() {
-        return this.applicantsService.findAll();
+    findAll(query) {
+        return this.applicantsService.findAll(query);
     }
     findOne(id) {
         return this.applicantsService.findOne(id);
@@ -48,8 +49,9 @@ __decorate([
 ], ApplicantsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [applicant_query_dto_1.ApplicantQueryDto]),
     __metadata("design:returntype", void 0)
 ], ApplicantsController.prototype, "findAll", null);
 __decorate([
