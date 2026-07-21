@@ -2,30 +2,32 @@ import { ApplicantQueryDto } from './dto/applicant-query.dto';
 import { ApplicantsService } from './applicants.service';
 import { CreateApplicantDto } from './dto/create-applicant.dto';
 import { UpdateApplicantDto } from './dto/update-applicant.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
+import { UpdateNotesDto } from './dto/update-notes.dto';
 export declare class ApplicantsController {
     private readonly applicantsService;
     constructor(applicantsService: ApplicantsService);
     create(dto: CreateApplicantDto): import("@prisma/client").Prisma.Prisma__ApplicantClient<{
-        id: string;
+        status: import("@prisma/client").$Enums.ApplicantStatus;
+        track: import("@prisma/client").$Enums.InternshipTrack;
         name: string;
         email: string;
         phone: string | null;
-        track: import("@prisma/client").$Enums.InternshipTrack;
-        status: import("@prisma/client").$Enums.ApplicantStatus;
         notes: string | null;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findAll(query: ApplicantQueryDto): Promise<{
         data: {
-            id: string;
+            status: import("@prisma/client").$Enums.ApplicantStatus;
+            track: import("@prisma/client").$Enums.InternshipTrack;
             name: string;
             email: string;
             phone: string | null;
-            track: import("@prisma/client").$Enums.InternshipTrack;
-            status: import("@prisma/client").$Enums.ApplicantStatus;
             notes: string | null;
+            id: string;
             createdAt: Date;
             updatedAt: Date;
             deletedAt: Date | null;
@@ -38,39 +40,63 @@ export declare class ApplicantsController {
         };
     }>;
     findOne(id: string): import("@prisma/client").Prisma.Prisma__ApplicantClient<{
-        id: string;
+        status: import("@prisma/client").$Enums.ApplicantStatus;
+        track: import("@prisma/client").$Enums.InternshipTrack;
         name: string;
         email: string;
         phone: string | null;
-        track: import("@prisma/client").$Enums.InternshipTrack;
-        status: import("@prisma/client").$Enums.ApplicantStatus;
         notes: string | null;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
     } | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     update(id: string, dto: UpdateApplicantDto): import("@prisma/client").Prisma.Prisma__ApplicantClient<{
-        id: string;
+        status: import("@prisma/client").$Enums.ApplicantStatus;
+        track: import("@prisma/client").$Enums.InternshipTrack;
         name: string;
         email: string;
         phone: string | null;
-        track: import("@prisma/client").$Enums.InternshipTrack;
-        status: import("@prisma/client").$Enums.ApplicantStatus;
         notes: string | null;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     remove(id: string): import("@prisma/client").Prisma.Prisma__ApplicantClient<{
-        id: string;
+        status: import("@prisma/client").$Enums.ApplicantStatus;
+        track: import("@prisma/client").$Enums.InternshipTrack;
         name: string;
         email: string;
         phone: string | null;
-        track: import("@prisma/client").$Enums.InternshipTrack;
-        status: import("@prisma/client").$Enums.ApplicantStatus;
         notes: string | null;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    updateStatus(id: string, dto: UpdateStatusDto): Promise<{
+        status: import("@prisma/client").$Enums.ApplicantStatus;
+        track: import("@prisma/client").$Enums.InternshipTrack;
+        name: string;
+        email: string;
+        phone: string | null;
+        notes: string | null;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    }>;
+    updateNotes(id: string, dto: UpdateNotesDto): Promise<{
+        status: import("@prisma/client").$Enums.ApplicantStatus;
+        track: import("@prisma/client").$Enums.InternshipTrack;
+        name: string;
+        email: string;
+        phone: string | null;
+        notes: string | null;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    }>;
 }

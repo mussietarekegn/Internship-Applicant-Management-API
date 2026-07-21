@@ -1,8 +1,16 @@
+import {
+NotFoundException,
+BadRequestException
+} from '@nestjs/common';
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateApplicantDto } from './dto/create-applicant.dto';
 import { UpdateApplicantDto } from './dto/update-applicant.dto';
 import { ApplicantQueryDto } from './dto/applicant-query.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
+import { UpdateNotesDto } from './dto/update-notes.dto';
+import { ApplicantStatus } from '@prisma/client';
 
 @Injectable()
 export class ApplicantsService {
@@ -148,5 +156,86 @@ remove(id:string){
 
 }
 
+async updateStatus(
+ id:string,
+ dto:UpdateStatusDto
+){
+
+ const applicant =
+ await this.prisma.applicant.findUnique({
+    where:{
+      id
+    }
+ });
+
+
+ if(!applicant){
+    throw new NotFoundException(
+      "Applicant not found"
+    );
+ }
+
+
+ if(
+ applicant.status === ApplicantStatus.REJECTED &&
+ dto.status === ApplicantStatus.ACCEPTED
+ ){
+
+    throw new BadRequestException(
+      "Rejected applicants cannot be directly accepted"
+    );
+
+ }
+
+
+ return this.prisma.applicant.update({
+
+    where:{
+      id
+    },
+
+    data:{
+      status:dto.status
+    }
+
+ });
+
+}
+
+async updateNotes(
+ id:string,
+ dto:UpdateNotesDto
+){
+
+ const applicant =
+ await this.prisma.applicant.findUnique({
+    where:{
+      id
+    }
+ });
+
+
+ if(!applicant){
+
+    throw new NotFoundException(
+      "Applicant not found"
+    );
+
+ }
+
+
+ return this.prisma.applicant.update({
+
+    where:{
+      id
+    },
+
+    data:{
+      notes:dto.notes
+    }
+
+ });
+
+}
 
 }

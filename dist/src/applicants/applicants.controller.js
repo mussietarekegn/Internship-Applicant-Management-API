@@ -18,6 +18,8 @@ const applicant_query_dto_1 = require("./dto/applicant-query.dto");
 const applicants_service_1 = require("./applicants.service");
 const create_applicant_dto_1 = require("./dto/create-applicant.dto");
 const update_applicant_dto_1 = require("./dto/update-applicant.dto");
+const update_status_dto_1 = require("./dto/update-status.dto");
+const update_notes_dto_1 = require("./dto/update-notes.dto");
 let ApplicantsController = class ApplicantsController {
     applicantsService;
     constructor(applicantsService) {
@@ -37,6 +39,12 @@ let ApplicantsController = class ApplicantsController {
     }
     remove(id) {
         return this.applicantsService.remove(id);
+    }
+    updateStatus(id, dto) {
+        return this.applicantsService.updateStatus(id, dto);
+    }
+    updateNotes(id, dto) {
+        return this.applicantsService.updateNotes(id, dto);
     }
 };
 exports.ApplicantsController = ApplicantsController;
@@ -76,6 +84,22 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ApplicantsController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Patch)(':id/status'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_status_dto_1.UpdateStatusDto]),
+    __metadata("design:returntype", void 0)
+], ApplicantsController.prototype, "updateStatus", null);
+__decorate([
+    (0, common_1.Patch)(':id/notes'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_notes_dto_1.UpdateNotesDto]),
+    __metadata("design:returntype", void 0)
+], ApplicantsController.prototype, "updateNotes", null);
 exports.ApplicantsController = ApplicantsController = __decorate([
     (0, common_1.Controller)('api/applicants'),
     __metadata("design:paramtypes", [applicants_service_1.ApplicantsService])

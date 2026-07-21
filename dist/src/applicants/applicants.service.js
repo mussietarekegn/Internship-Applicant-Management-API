@@ -11,7 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApplicantsService = void 0;
 const common_1 = require("@nestjs/common");
+const common_2 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const client_1 = require("@prisma/client");
 let ApplicantsService = class ApplicantsService {
     prisma;
     constructor(prisma) {
@@ -99,10 +101,50 @@ let ApplicantsService = class ApplicantsService {
             }
         });
     }
+    async updateStatus(id, dto) {
+        const applicant = await this.prisma.applicant.findUnique({
+            where: {
+                id
+            }
+        });
+        if (!applicant) {
+            throw new common_1.NotFoundException("Applicant not found");
+        }
+        if (applicant.status === client_1.ApplicantStatus.REJECTED &&
+            dto.status === client_1.ApplicantStatus.ACCEPTED) {
+            throw new common_1.BadRequestException("Rejected applicants cannot be directly accepted");
+        }
+        return this.prisma.applicant.update({
+            where: {
+                id
+            },
+            data: {
+                status: dto.status
+            }
+        });
+    }
+    async updateNotes(id, dto) {
+        const applicant = await this.prisma.applicant.findUnique({
+            where: {
+                id
+            }
+        });
+        if (!applicant) {
+            throw new common_1.NotFoundException("Applicant not found");
+        }
+        return this.prisma.applicant.update({
+            where: {
+                id
+            },
+            data: {
+                notes: dto.notes
+            }
+        });
+    }
 };
 exports.ApplicantsService = ApplicantsService;
 exports.ApplicantsService = ApplicantsService = __decorate([
-    (0, common_1.Injectable)(),
+    (0, common_2.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], ApplicantsService);
 //# sourceMappingURL=applicants.service.js.map
