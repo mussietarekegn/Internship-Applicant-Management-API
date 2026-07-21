@@ -12,11 +12,11 @@ import { AuthService } from './auth.service';
     imports: [ConfigModule],
     inject: [ConfigService],
     useFactory: async (config: ConfigService) => ({
-      secret: config.getOrThrow<string>('JWT_SECRET'),
-      signOptions: {
-      expiresIn: config.getOrThrow<string>('JWT_EXPIRES_IN'),
-    },
-  }),
+    secret: config.getOrThrow<string>('JWT_SECRET'),
+    signOptions: {
+    expiresIn: config.getOrThrow<string>('JWT_EXPIRES_IN') as any,
+  },
+}),
 })
   ],
   controllers: [AuthController],
