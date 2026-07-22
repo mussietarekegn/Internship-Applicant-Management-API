@@ -379,10 +379,4 @@ npm run test:cov
 ```
 
 ---
-
-# Author
-
-Backend Internship Challenge Submission  
-INFNOVA Technologies
-
 Built with NestJS, Prisma, PostgreSQL, and JWT Authentication.
