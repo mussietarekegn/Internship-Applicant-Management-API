@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const dashboard_service_1 = require("./dashboard.service");
 const common_2 = require("@nestjs/common");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let DashboardController = class DashboardController {
     dashboardService;
     constructor(dashboardService) {
@@ -31,6 +32,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DashboardController.prototype, "getSummary", null);
 exports.DashboardController = DashboardController = __decorate([
+    (0, swagger_1.ApiTags)('Dashboard'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('api/dashboard'),
     (0, common_2.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [dashboard_service_1.DashboardService])

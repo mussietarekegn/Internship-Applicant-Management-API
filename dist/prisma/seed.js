@@ -48,7 +48,28 @@ async function main() {
             password,
         },
     });
-    console.log('Admin created');
+    await prisma.applicant.createMany({
+        data: [{
+                name: 'Mussie',
+                email: 'moss@gmail.com',
+                track: client_1.InternshipTrack.BACKEND,
+                status: client_1.ApplicantStatus.PENDING
+            },
+            {
+                name: 'Tarekegn',
+                email: 'Tare@gmail.com',
+                track: client_1.InternshipTrack.FRONTEND,
+                status: client_1.ApplicantStatus.SHORTLISTED
+            },
+            {
+                name: 'Yonatan',
+                email: 'yoni@gmail.com',
+                track: client_1.InternshipTrack.MOBILE,
+                status: client_1.ApplicantStatus.ACCEPTED
+            }
+        ]
+    });
+    console.log('Seed completed');
 }
 main()
     .catch(console.error)
