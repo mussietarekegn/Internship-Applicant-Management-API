@@ -6,4 +6,5 @@ export declare class AuthController {
     login(dto: LoginDto): Promise<{
         access_token: string;
     }>;
+    getMe(req: any): any;
 }
