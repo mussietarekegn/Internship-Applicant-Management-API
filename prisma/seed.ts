@@ -17,10 +17,11 @@ async function main() {
     },
   });
 
-  console.log(' Admin seeded');
+  console.log('Admin created');
 }
 
 main()
+  .catch(console.error)
   .finally(async () => {
     await prisma.$disconnect();
   });
