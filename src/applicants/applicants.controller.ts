@@ -3,26 +3,29 @@ import {
  Get,
  Post,
  Body,
- Param,
  Patch,
+ Param,
  Delete,
- Query
+ Query,
+ UseGuards,
 } from '@nestjs/common';
-
-import { ApplicantQueryDto } from './dto/applicant-query.dto';
+import {ApiBearerAuth,ApiTags,} from '@nestjs/swagger';
 import { ApplicantsService } from './applicants.service';
 import { CreateApplicantDto } from './dto/create-applicant.dto';
 import { UpdateApplicantDto } from './dto/update-applicant.dto';
-import { UpdateStatusDto } from './dto/update-status.dto';
-import { UpdateNotesDto }from './dto/update-notes.dto';
+import { ApplicantQueryDto } from './dto/applicant-query.dto';
+import { UpdateStatusDto }from './dto/update-status.dto';
+import { UpdateNotesDto } from './dto/update-notes.dto';
+import { JwtAuthGuard }from '../auth/guards/jwt-auth.guard';
 
+@ApiTags('Applicants')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('api/applicants')
 export class ApplicantsController {
-
 constructor(
  private readonly applicantsService: ApplicantsService
 ){}
-
 
 @Post()
 create(
@@ -57,7 +60,10 @@ update(
  @Body() dto:UpdateApplicantDto
 ){
 
- return this.applicantsService.update(id,dto);
+ return this.applicantsService.update(
+  id,
+  dto
+ );
 
 }
 
@@ -77,8 +83,8 @@ updateStatus(
 ){
 
  return this.applicantsService.updateStatus(
-    id,
-    dto
+  id,
+  dto
  );
 
 }
@@ -90,8 +96,8 @@ updateNotes(
 ){
 
  return this.applicantsService.updateNotes(
-    id,
-    dto
+  id,
+  dto
  );
 
 }

@@ -14,12 +14,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApplicantsController = void 0;
 const common_1 = require("@nestjs/common");
-const applicant_query_dto_1 = require("./dto/applicant-query.dto");
+const swagger_1 = require("@nestjs/swagger");
 const applicants_service_1 = require("./applicants.service");
 const create_applicant_dto_1 = require("./dto/create-applicant.dto");
 const update_applicant_dto_1 = require("./dto/update-applicant.dto");
+const applicant_query_dto_1 = require("./dto/applicant-query.dto");
 const update_status_dto_1 = require("./dto/update-status.dto");
 const update_notes_dto_1 = require("./dto/update-notes.dto");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let ApplicantsController = class ApplicantsController {
     applicantsService;
     constructor(applicantsService) {
@@ -101,6 +103,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ApplicantsController.prototype, "updateNotes", null);
 exports.ApplicantsController = ApplicantsController = __decorate([
+    (0, swagger_1.ApiTags)('Applicants'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Controller)('api/applicants'),
     __metadata("design:paramtypes", [applicants_service_1.ApplicantsService])
 ], ApplicantsController);

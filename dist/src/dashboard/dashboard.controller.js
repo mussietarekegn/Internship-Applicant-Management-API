@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardController = void 0;
 const common_1 = require("@nestjs/common");
 const dashboard_service_1 = require("./dashboard.service");
+const common_2 = require("@nestjs/common");
+const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let DashboardController = class DashboardController {
     dashboardService;
     constructor(dashboardService) {
@@ -30,6 +32,7 @@ __decorate([
 ], DashboardController.prototype, "getSummary", null);
 exports.DashboardController = DashboardController = __decorate([
     (0, common_1.Controller)('api/dashboard'),
+    (0, common_2.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [dashboard_service_1.DashboardService])
 ], DashboardController);
 //# sourceMappingURL=dashboard.controller.js.map

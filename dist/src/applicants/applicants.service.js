@@ -19,14 +19,24 @@ let ApplicantsService = class ApplicantsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(dto) {
-        return this.prisma.applicant.create({
-            data: dto
-        });
+    async create(dto) {
+        try {
+            return await this.prisma.applicant.create({
+                data: dto
+            });
+        }
+        catch (error) {
+            if (error.code === 'P2002') {
+                throw new common_1.BadRequestException('Applicant email already exists');
+            }
+            throw error;
+        }
     }
     async findAll(query) {
         const { search, status, track, page = 1, limit = 10, sortBy = 'createdAt', order = 'desc' } = query;
-        const skip = (page - 1) * limit;
+        const skip = (Number(page) - 1)
+            *
+                Number(limit);
         const where = {
             deletedAt: null
         };
@@ -52,13 +62,24 @@ let ApplicantsService = class ApplicantsService {
         if (track) {
             where.track = track;
         }
+        const allowedSortFields = [
+            'createdAt',
+            'name',
+            'email',
+            'status'
+        ];
+        const safeSort = allowedSortFields.includes(sortBy) ? sortBy : 'createdAt';
         const [items, total] = await Promise.all([
             this.prisma.applicant.findMany({
                 where,
                 skip,
                 take: Number(limit),
                 orderBy: {
-                    [sortBy]: order
+                    [safeSort]: order === 'asc'
+                        ?
+                            'asc'
+                        :
+                            'desc'
                 }
             }),
             this.prisma.applicant.count({
@@ -71,19 +92,24 @@ let ApplicantsService = class ApplicantsService {
                 total,
                 page: Number(page),
                 limit: Number(limit),
-                totalPages: Math.ceil(total / limit)
+                totalPages: Math.ceil(total / Number(limit))
             }
         };
     }
-    findOne(id) {
-        return this.prisma.applicant.findFirst({
+    async findOne(id) {
+        const applicant = await this.prisma.applicant.findFirst({
             where: {
                 id,
                 deletedAt: null
             }
         });
+        if (!applicant) {
+            throw new common_1.NotFoundException('Applicant not found');
+        }
+        return applicant;
     }
-    update(id, dto) {
+    async update(id, dto) {
+        await this.findOne(id);
         return this.prisma.applicant.update({
             where: {
                 id
@@ -91,7 +117,8 @@ let ApplicantsService = class ApplicantsService {
             data: dto
         });
     }
-    remove(id) {
+    async remove(id) {
+        await this.findOne(id);
         return this.prisma.applicant.update({
             where: {
                 id
@@ -102,17 +129,13 @@ let ApplicantsService = class ApplicantsService {
         });
     }
     async updateStatus(id, dto) {
-        const applicant = await this.prisma.applicant.findUnique({
-            where: {
-                id
-            }
-        });
-        if (!applicant) {
-            throw new common_1.NotFoundException("Applicant not found");
-        }
-        if (applicant.status === client_1.ApplicantStatus.REJECTED &&
-            dto.status === client_1.ApplicantStatus.ACCEPTED) {
-            throw new common_1.BadRequestException("Rejected applicants cannot be directly accepted");
+        const applicant = await this.findOne(id);
+        if (applicant.status ===
+            client_1.ApplicantStatus.REJECTED
+            &&
+                dto.status ===
+                    client_1.ApplicantStatus.ACCEPTED) {
+            throw new common_1.BadRequestException('Rejected applicants cannot be directly accepted');
         }
         return this.prisma.applicant.update({
             where: {
@@ -124,14 +147,7 @@ let ApplicantsService = class ApplicantsService {
         });
     }
     async updateNotes(id, dto) {
-        const applicant = await this.prisma.applicant.findUnique({
-            where: {
-                id
-            }
-        });
-        if (!applicant) {
-            throw new common_1.NotFoundException("Applicant not found");
-        }
+        await this.findOne(id);
         return this.prisma.applicant.update({
             where: {
                 id
