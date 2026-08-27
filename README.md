@@ -1,6 +1,5 @@
 # Internship Applicant Management API
 
-Backend Internship Practical Challenge for **INFNOVA Technologies**.
 
 A NestJS REST API that allows administrators to manage internship applications with authentication, filtering, pagination, soft deletion, and dashboard statistics.
 
